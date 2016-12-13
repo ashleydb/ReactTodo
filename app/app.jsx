@@ -7,7 +7,7 @@ var ReactDOM = require('react-dom');
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
 //Include our component dependencies
-var Main = require('Main');
+var TodoApp = require('TodoApp');
 
 //Use jQuery to start foundation
 $(document).foundation();
@@ -16,9 +16,6 @@ $(document).foundation();
 require('applicationStyles');
 
 ReactDOM.render(
-  <Router history={hashHistory}>
-    <Route path="/" component={Main}>
-    </Route>
-  </Router>,
+  <TodoApp/>,
   document.getElementById('app')
 );
