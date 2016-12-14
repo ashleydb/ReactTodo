@@ -15,15 +15,15 @@ describe('AddTodo', () => {
     //A spy is a function that we can watch, e.g. for callbacks
     var spy = expect.createSpy();
     var addTodo = TestUtils.renderIntoDocument(<AddTodo onNewTodo={spy}/>);
-    debugger;
     //Get the form as a jQuery element
     var $el = $(ReactDOM.findDOMNode(addTodo));
     //Set the value in the form's text field
-    addTodo.refs.todoText.value = 'Walk the Dog';
+    var testData = 'Walk the Dog';
+    addTodo.refs.todoText.value = testData;
     //Get the (first) form from jQuery, turn that into a DOM element for TestUtils, which can trigger a for submission
     TestUtils.Simulate.submit($el.find('form')[0]);
     // The form was submitted, so did our spy function get triggered?
-    expect(spy).toHaveBeenCalledWith('Walk the Dog');
+    expect(spy).toHaveBeenCalledWith(testData);
   });
 
   it('should not call onNewTodo if nothing entered', () => {
