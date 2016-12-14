@@ -8,9 +8,9 @@ var TodoList = React.createClass({
     var renderTodoList = () => {
       return list.map((todo) => {
         return (
-          <div className="row">
+          <div className="row" key={todo.id}>
             <div className="small-centered columns">
-              <Todo key={todo.id} {...todo}/>
+              <Todo {...todo}/>
             </div>
           </div>
         );
