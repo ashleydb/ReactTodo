@@ -1,8 +1,10 @@
 var React = require('react');
+var UUID = require('node-uuid');
+
 var TodoList = require('TodoList');
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
-var UUID = require('node-uuid');
+var TodoAPI = require('TodoAPI');
 
 //Main component of this app, maintaining state
 var TodoApp = React.createClass({
@@ -10,13 +12,13 @@ var TodoApp = React.createClass({
     return {
       showCompleted: false,
       searchText: '',
-      todos: [
-        {id: UUID(), text: 'learn react', time: 'Monday 8am', complete: false},
-        {id: UUID(), text: '?', time: 'Tuesday 10am', complete: true},
-        {id: UUID(), text: 'profit', time: 'Wednesday 3pm', complete: false}
-      ]
+      todos: TodoAPI.getTodos()
     }
   },
+    componentDidUpdate: function() {
+        //This is a little over eager to update even if the filter changes, but it works
+        TodoAPI.setTodos(this.state.todos);
+    },
   handleAddTodo: function(text) {
     this.setState({
       todos: [

@@ -30,7 +30,8 @@ module.exports = {
     root: __dirname,
     modulesDirectories: [
       'node_modules',
-      './app/components/'
+      './app/components/',
+      './app/api/'
     ],
     alias: {
       //The resolve.alias settings means we can just require <name> rather than './component/<name>'
