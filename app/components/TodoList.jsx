@@ -10,7 +10,7 @@ var TodoList = React.createClass({
         return (
           <div className="row" key={todo.id}>
             <div className="small-centered columns">
-              <Todo {...todo}/>
+              <Todo {...todo} onToggle={this.props.onToggle}/>
             </div>
           </div>
         );
