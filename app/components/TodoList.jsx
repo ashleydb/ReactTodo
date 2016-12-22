@@ -6,6 +6,12 @@ var TodoList = React.createClass({
     var {list} = this.props;
 
     var renderTodoList = () => {
+        if (list.length === 0) {
+            return (
+                <p className="container__message">Nothing to do</p>
+            )
+        }
+        
       return list.map((todo) => {
         return (
           <div className="row" key={todo.id}>

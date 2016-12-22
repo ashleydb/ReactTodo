@@ -24,11 +24,12 @@ describe('TodoList', () => {
     expect(todosComponents.length).toBe(todos.length);
   });
 
-
-  // describe('render', () => {
-  //   it('should render TodoList to output', () => {
-  //     var todoList = TestUtils.renderIntoDocument(<TodoList/>);
-  //     expect(todoList).toBe(1);
-  //   });
-  // });
+  it('should render render empty message if no todos', () => {
+    var todos = [];
+    var todoList = TestUtils.renderIntoDocument(<TodoList list={todos}/>);
+    var $el = $(ReactDOM.findDOMNode(todoList));
+    
+    var emptyMessage = $el.find('.container__message');
+    expect(emptyMessage.length).toBe(1);
+  });
 });
