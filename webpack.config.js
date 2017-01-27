@@ -35,7 +35,8 @@ module.exports = {
     ],
     alias: {
       //The resolve.alias settings means we can just require <name> rather than './component/<name>'
-      applicationStyles: 'app/styles/app.scss'
+      applicationStyles: 'app/styles/app.scss',
+      actions: 'app/actions/actions.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
