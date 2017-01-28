@@ -1,3 +1,6 @@
+var UUID = require('node-uuid');
+var moment = require('moment');
+
 export var searchTextReducer = (state = '', action) => {
   switch (action.type) {
     case 'SET_SEARCH_TEXT':
@@ -18,4 +21,31 @@ export var showCompletedtReducer = (state = false, action) => {
       return state;
       break;
   }
+};
+
+export var todosReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_TODO':
+            return [
+                ...state,
+                {id: UUID(), text: action.text, createdAt: moment().unix(),
+                 completedAt: undefined, complete: false}
+                ];
+            break;
+        case 'TOGGLE_TODO':
+            return state.map((todo) => {
+                if (action.id === todo.id) {
+                    return {
+                        ...todo,
+                        complete: !todo.complete,
+                        completedAt: !todo.complete ? moment().unix() : undefined
+                    }
+                }
+                return todo;
+            });
+            break;
+        default:
+            return state;
+            break;
+    }
 };
