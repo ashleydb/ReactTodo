@@ -9,6 +9,17 @@ var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 //Include our component dependencies
 var TodoApp = require('TodoApp');
 
+var actions = require('actions');
+var store = require('configureStore').configure();
+
+store.subscribe(() => {
+    console.log('New state', store.getState());
+});
+
+store.dispatch(actions.addTodo('Clean up'));
+store.dispatch(actions.setSearchText('up'));
+store.dispatch(actions.toggleShowCompleted());
+
 //Use jQuery to start foundation
 $(document).foundation();
 

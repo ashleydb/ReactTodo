@@ -35,6 +35,7 @@ export var todosReducer = (state = [], action) => {
         case 'TOGGLE_TODO':
             return state.map((todo) => {
                 if (action.id === todo.id) {
+                    // Can't edit the state, (and therefore this todo,) so need to make a new object
                     return {
                         ...todo,
                         complete: !todo.complete,
