@@ -1,6 +1,7 @@
 //Include our npm dependencies
 var React = require('react');
 var ReactDOM = require('react-dom');
+var {Provider} = require('react-redux');
 
 //Creates multiple variables at once in ES6 destructuring syntax
 // Same as var Route = require('react-router').Route; repeated for each item in the list.
@@ -27,6 +28,8 @@ $(document).foundation();
 require('applicationStyles');
 
 ReactDOM.render(
-  <TodoApp/>,
+  <Provider store={store}>
+    <TodoApp/>
+  </Provider>,
   document.getElementById('app')
 );

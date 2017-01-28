@@ -66,5 +66,5 @@ module.exports = {
   },
   //'eval-source-map' lets us debug the code as written, rather than in bundle.js.
   // Only applies during development, since it is a devtool setting.
-  devtool: 'eval-source-map'
+  devtool: 'cheap-module-eval-source-map'
 }
