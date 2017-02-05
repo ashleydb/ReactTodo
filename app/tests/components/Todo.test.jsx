@@ -4,36 +4,30 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-var Todo = require('Todo');
+// Use ES6 destructuring to get the component so that we get the React version, not the default Redux version
+var {Todo} = require('Todo');
 
 describe('Todo', () => {
   it('should exist', () => {
     expect(Todo).toExist();
   });
     
-    
-    
-    it('should call onToggle prop with id on click', () => {
+    it('should call TOGGLE_TODO action on click', () => {
         var todoData = {id: 13, text: 'learn react', time: 'Monday 8am', complete: false};
         var spy = expect.createSpy();
-        var todoComponent = TestUtils.renderIntoDocument(<Todo {...todoData} onToggle={spy}/>);
+        
+        // Passing in dispatch as a prop since Redux's connect() would have done this
+        var todoComponent = TestUtils.renderIntoDocument(<Todo {...todoData} dispatch={spy}/>);
         
         var $el = $(ReactDOM.findDOMNode(todoComponent));
         
-        //These lines will test using the checkbox on the form
-        //var todoCheckbox = $el.find('input')[0];
-        //TestUtils.Simulate.click(todoCheckbox);
-        
-        //This line will test using the root div of the Todo
+        // This line will test using the root div of the Todo
         TestUtils.Simulate.click($el[0]);
         
-        expect(spy).toHaveBeenCalledWith(13);
+        // Check the action was passed correctly
+        expect(spy).toHaveBeenCalledWith({
+            type: 'TOGGLE_TODO',
+            id: todoData.id
+        });
     });
-
-  // describe('render', () => {
-  //   it('should render Todo to output', () => {
-  //     var todo = TestUtils.renderIntoDocument(<Todo/>);
-  //     expect(todo).toBe(1);
-  //   });
-  // });
 });

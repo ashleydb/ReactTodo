@@ -3,7 +3,8 @@ var {connect} = require('react-redux');
 var moment = require('moment');
 var actions = require('actions');
 
-var Todo = React.createClass({
+// Only exporting this component for use in automated tests
+export var Todo = React.createClass({
   render: function() {
     var {id, text, createdAt, completedAt, complete, dispatch} = this.props;
     var todoClassName = (complete) ? 'todo todo-complete' : 'todo';
@@ -34,5 +35,6 @@ var Todo = React.createClass({
   }
 });
 
-// Note that connect() provides access to dispatch() as a prop.
-module.exports = connect()(Todo);
+// export default means that this is the version of the component that require() will return.
+// This is the redux version of the component. Note that connect() provides access to dispatch() as a prop.
+export default connect()(Todo);

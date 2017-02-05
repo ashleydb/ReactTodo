@@ -1,8 +1,8 @@
 var React = require('react');
 var {connect} = require('react-redux'); //Partner to Provider
-var Todo = require('Todo');
+import Todo from 'Todo';
 
-var TodoList = React.createClass({
+export var TodoList = React.createClass({
   render: function() {
     var {todos} = this.props;
 
@@ -35,7 +35,7 @@ var TodoList = React.createClass({
 // Exports will make the TodoList avialable to be called elsewhere.
 // Connect is providing access to state variables from the Redux store.
 // This syntax means that we can use todos as if it were a prop on this component.
-module.exports = connect(
+export default connect(
     (state) => {
         return {
             todos: state.todos

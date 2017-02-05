@@ -2,7 +2,8 @@ var React = require('react');
 var UUID = require('node-uuid');
 var moment = require('moment');
 
-var TodoList = require('TodoList');
+// Get the default React version of the TodoList component
+import TodoList from 'TodoList';
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
 var TodoAPI = require('TodoAPI');
