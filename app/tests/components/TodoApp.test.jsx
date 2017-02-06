@@ -6,6 +6,7 @@ var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
 var configureStore = require('configureStore');
+// There is only a single TodoApp exported. There isn't a Redux version, so we can still use require()
 var TodoApp = require('TodoApp');
 // Get the default React version of the TodoList component
 import TodoList from 'TodoList';
