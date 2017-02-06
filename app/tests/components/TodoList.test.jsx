@@ -22,7 +22,7 @@ describe('TodoList', () => {
       {id: 3, text: 'profit', createdAt: 300, completedAt: undefined, complete: false},
     ];
 
-    var store = configureStore.configure({todos});
+    var store = configureStore.configure({todos, showCompleted: true});
     var provider = TestUtils.renderIntoDocument(<Provider store={store}><ConnectedTodoList todos={todos}/></Provider>);
       
     var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];

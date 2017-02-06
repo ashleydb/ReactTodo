@@ -5,7 +5,7 @@ var moment = require('moment');
 // Get the default React version of the TodoList component
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
-var TodoSearch = require('TodoSearch');
+import TodoSearch from 'TodoSearch';
 var TodoAPI = require('TodoAPI');
 
 //Main component of this app, maintaining state
