@@ -34,15 +34,14 @@ export var todosReducer = (state = [], action) => {
                 ...action.todos
                 ];
             break;
-        case 'TOGGLE_TODO':
+        case 'UPDATE_TODO':
             return state.map((todo) => {
                 if (action.id === todo.id) {
                     // Can't edit the state, (and therefore this todo,) so need to make a new object
                     return {
                         ...todo,
-                        complete: !todo.complete,
-                        completedAt: !todo.complete ? moment().unix() : undefined
-                    }
+                        ...action.updates
+                    };
                 }
                 return todo;
             });
