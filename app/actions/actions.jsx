@@ -53,6 +53,34 @@ export var addTodos = (todos) => {
     };
 }
 
+export var startAddTodos = () => {
+  return (dispatch, getState) => {
+    // Create an array of objects for our app based on the object of objects from firebase
+
+    // First, get the data from our server (firebase), which is async
+    var todosRef = firebaseRef.child('todos');
+    return todosRef.once('value').then(function(dataSnapshot) {
+      // Now we have the data, so can parse it, update our state and re-render
+
+      // todos should be {'abc':{complete: false, text: 'todo', <etc.>}, 'def': {...}} or empty
+      var todos = dataSnapshot.val() || {};
+      // This is the output array we want
+      var parsedTodos = []
+
+      // todoId will be the id values we need, which is the object (array index) name in the firebase object, todos
+      Object.keys(todos).forEach((todoId) => {
+        parsedTodos.push({
+          id: todoId,
+          ...todos[todoId]
+        });
+      });
+
+      // Add to state and re-render
+      dispatch(addTodos(parsedTodos));
+    });
+  };
+}
+
 export var toggleShowCompleted = () => {
   return {
     type: 'TOGGLE_SHOW_COMPLETED'

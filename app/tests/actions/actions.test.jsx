@@ -98,17 +98,37 @@ describe('Actions', () => {
 
     // Create a placeholder todo in firebase
     beforeEach((done) => {
-      testTodoRef = firebaseRef.child('todos').push();
+      // Wipe out any existing todos data
+      var todosRef = firebaseRef.child('todos');
+      todosRef.remove().then(() => {
+        // Now create a single todo
+        testTodoRef = firebaseRef.child('todos').push();
 
-      testTodoRef.set({
-        text: 'Something to do',
-        complete: false,
-        createdAt: 6546546
-      }).then(() => done()); // Single line syntax for the sucess callback, which informs mocha this async task is done
+        return testTodoRef.set({
+          text: 'Something to do',
+          complete: false,
+          createdAt: 6546546
+        })
+      })
+      .then(() => done()) // Single line syntax for the sucess callback, which informs mocha this async task is done
+      .catch(done); // If anything goes wrong along the way, we'll catch the error
     });
     // Cleanup placeholder todo in firebase
     afterEach((done) => {
       testTodoRef.remove().then(() => done());
+    });
+
+    it('should populate todos and dispatch ADD_TODOS action', (done) => {
+      const store = createMockStore({});
+      const action = actions.startAddTodos();
+      store.dispatch(action).then(() => {
+        // Success
+        const mockActions = store.getActions();
+        expect(mockActions[0].type).toEqual('ADD_TODOS');
+        expect(mockActions[0].todos.length).toEqual(1);
+        expect(mockActions[0].todos[0].text).toEqual('Something to do');
+        done();
+      }, done); // Failure callback will just triger done with any errors passed
     });
 
     it('should toggle todo and dispatch UPDATE_TODO action', (done) => {

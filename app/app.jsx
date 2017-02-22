@@ -16,14 +16,8 @@ var store = require('configureStore').configure();
 
 //import './../playground/firebase/index';
 
-store.subscribe(() => {
-    var state = store.getState();
-    console.log('New state', state);
-    TodoAPI.setTodos(state.todos);
-});
-
-var initialTodos = TodoAPI.getTodos();
-store.dispatch(actions.addTodos(initialTodos));
+// Asyncronously load the todo data from firebase
+store.dispatch(actions.startAddTodos());
 
 //Use jQuery to start foundation
 $(document).foundation();
