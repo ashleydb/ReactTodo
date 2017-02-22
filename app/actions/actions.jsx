@@ -1,3 +1,8 @@
+import moment from 'moment'
+//from 'app/firebase' means from 'app/firebase/index' which is index.js.
+// otherwise we would need to include the filename, (without extension)
+import firebase, {firebaseRef} from 'app/firebase/'
+
 export var setSearchText = (searchText) => {
   return {
     type: 'SET_SEARCH_TEXT',
@@ -5,11 +10,40 @@ export var setSearchText = (searchText) => {
   };
 }
 
-export var addTodo = (text) => {
+export var addTodo = (todo) => {
   return {
     type: 'ADD_TODO',
-    text
+    todo
   };
+}
+
+// This is a redux-thunk action, returning an action instead of an object
+export var startAddTodo = (text) => {
+  // redux-thunk gives us the dispatch function to trigger other actions
+  // and the getState function to get the current Redux store
+  return (dispatch, getState) => {
+    // Create the todo object.
+    // Moved from the reducer. ID will come from firebase. Need to use null instead of undefined
+    var todo = {
+      text,
+      createdAt: moment().unix(),
+      completedAt: null,
+      complete: false
+    };
+
+    // Send the data to our server (firebase)
+    var todoRef = firebaseRef.child('todos').push(todo);
+
+    // Need to update our state so that the content is re-rendered.
+    // This uses an API based on promises to write, gets back an ID for that
+    // new object on the server, then chains actions to update state and render.
+    return todoRef.then(() => {
+      dispatch(addTodo({
+        ...todo,
+        id: todoRef.key
+      }));
+    });
+  }
 }
 
 export var addTodos = (todos) => {

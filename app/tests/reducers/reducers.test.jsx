@@ -33,14 +33,19 @@ describe('Reducers', () => {
     it('should add a new todo', () => {
       var action = {
         type: 'ADD_TODO',
-        text: 'hello'
+        todo: {
+          id: '123',
+          text: 'hello',
+          completed: false,
+          createdAt: 123456
+        }
       };
       // Returns a Todos array, with a new element at the end
       var res = reducers.todosReducer(df([]), df(action));
       expect(res.length).toEqual(1);
-      expect(res[0].text).toEqual(action.text);
+      expect(res[0]).toEqual(action.todo);
     });
-      
+
     it('should add new todos', () => {
       var action = {
         type: 'ADD_TODOS',
@@ -50,11 +55,11 @@ describe('Reducers', () => {
       expect(res.length).toEqual(1);
       expect(res[0]).toEqual(action.todos[0]);
     });
-      
+
     it('should toggle a todo', () => {
       var state = [{id: 123, text: 'hello', createdAt: 123,
                  completedAt: 234, complete: true}];
-        
+
       var action = {
         type: 'TOGGLE_TODO',
         id: state[0].id

@@ -4,6 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
+import * as actions from 'actions'; // Puts all exports in 'actions' on an actions object
 var {AddTodo} = require('AddTodo');
 
 describe('AddTodo', () => {
@@ -12,11 +13,9 @@ describe('AddTodo', () => {
   });
 
   it('should dispatch ADD_TODO valid text entered', () => {
-    var testData = 'Walk the Dog';      
-    var action = {
-      type: 'ADD_TODO',
-      text: testData
-    };
+    var testData = 'Walk the Dog';
+    var action = actions.startAddTodo(testData);
+
     //A spy is a function that we can watch, e.g. for callbacks
     var spy = expect.createSpy();
     var addTodo = TestUtils.renderIntoDocument(<AddTodo dispatch={spy}/>);
