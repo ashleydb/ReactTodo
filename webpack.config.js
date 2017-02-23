@@ -5,6 +5,9 @@
 var webpack = require('webpack');
 var path = require('path');
 
+// Will be 'production' on heroku, but missing locallaly so we'll set to 'development'
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 module.exports = {
   entry: [
     //Where script!, (or style! or css! etc.) are used, that means use a loader, (e.g. script-loader module,) to pull in these files.
@@ -20,6 +23,11 @@ module.exports = {
     new webpack.ProvidePlugin({
         '$': 'jquery',
         'jQuery': 'jquery'
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
     })
   ],
   output: {
@@ -67,5 +75,5 @@ module.exports = {
   },
   //'eval-source-map' lets us debug the code as written, rather than in bundle.js.
   // Only applies during development, since it is a devtool setting.
-  devtool: 'cheap-module-eval-source-map'
+  devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'
 }
