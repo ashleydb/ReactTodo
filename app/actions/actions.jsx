@@ -1,7 +1,7 @@
 import moment from 'moment'
 //from 'app/firebase' means from 'app/firebase/index' which is index.js.
 // otherwise we would need to include the filename, (without extension)
-import firebase, {firebaseRef} from 'app/firebase/'
+import firebase, {firebaseRef, githubProvider} from 'app/firebase/'
 
 export var setSearchText = (searchText) => {
   return {
@@ -106,4 +106,24 @@ export var startToggleTodo = (id, complete) => {
         dispatch(updateTodo(id, updates));
       });
     };
+}
+
+export var startLogin = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signInWithPopup(githubProvider).then((result) => {
+      // Success
+      console.log('Auth Success', result);
+    }, (error) => {
+      // Error
+      console.log('Auth Failed', error);
+    });
+  };
+}
+
+export var startLogout = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signOut().then(() => {
+      console.log('Auth: Logout');
+    })
+  };
 }

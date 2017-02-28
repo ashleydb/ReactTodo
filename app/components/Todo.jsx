@@ -35,6 +35,6 @@ export var Todo = React.createClass({
   }
 });
 
-// export default means that this is the version of the component that require() will return.
+// export default means that this is the version of the component that import will return.
 // This is the redux version of the component. Note that connect() provides access to dispatch() as a prop.
 export default connect()(Todo);

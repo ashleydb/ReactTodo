@@ -14,6 +14,8 @@ try {
 
 }
 
+// For logging into the app with GitHub, used in Actions.
+export var githubProvider = new firebase.auth.GithubAuthProvider;
 // Getting a reference to the root of the db
 export var firebaseRef = firebase.database().ref();
 // Also exporting the firebase object, so only this file needs to be imported,

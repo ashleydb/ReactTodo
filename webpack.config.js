@@ -14,6 +14,8 @@ try {
   envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
 } catch (e) {
   // Will error in production, since there is no production.env
+  // Use the CLI to do the following:
+  //  heroku config:set <KEY>=<VALUE>
 }
 
 module.exports = {

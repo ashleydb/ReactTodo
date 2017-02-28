@@ -6,9 +6,9 @@ var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
 var configureStore = require('configureStore');
-// There is only a single TodoApp exported. There isn't a Redux version, so we can still use require()
-var TodoApp = require('TodoApp');
-// Get the default React version of the TodoList component
+// Get the non-Redux-connected version of TodoApp, (the not-default export)
+import {TodoApp} from 'TodoApp';
+// Get the default Redux version of the TodoList component
 import TodoList from 'TodoList';
 
 describe('TodoApp', () => {
@@ -20,7 +20,7 @@ describe('TodoApp', () => {
   it('should render TodoList', () => {
     var store = configureStore.configure();
     var provider = TestUtils.renderIntoDocument(<Provider store={store}><TodoApp/></Provider>);
-      
+
     var todoText = 'test text';
     var todoApp = TestUtils.scryRenderedComponentsWithType(provider, TodoApp)[0];
     var todoList = TestUtils.scryRenderedComponentsWithType(todoApp, TodoList);
