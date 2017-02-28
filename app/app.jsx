@@ -2,16 +2,29 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var {Provider} = require('react-redux');
-
-//Creates multiple variables at once in ES6 destructuring syntax
-// Same as var Route = require('react-router').Route; repeated for each item in the list.
-var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+var {hashHistory} = require('react-router');
 
 //Include our component dependencies
-import Login from 'Login';
-import TodoApp from 'TodoApp';
 import * as actions from 'actions';
 var store = require('configureStore').configure();
+import firebase from 'app/firebase';
+import router from 'app/router';
+
+//As authentication events happen, redirect the user
+firebase.auth().onAuthStateChanged((user) => {
+  // This will be fired as the app starts, so check the current path before trying to push a new one
+  var location = hashHistory.getCurrentLocation();
+
+  if (user && location.pathname != '/todos') {
+    // Login event
+    hashHistory.push('/todos');
+    console.log('onAuthStateChanged: push to /todos');
+  } else if (!user && location.pathname != '/') {
+    // Logout event
+    hashHistory.push('/');
+    console.log('onAuthStateChanged: push to /');
+  }
+});
 
 //import './../playground/firebase/index';
 
@@ -26,12 +39,7 @@ require('applicationStyles');
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory}>
-      <Route path="/">
-        <Route path="todos" component={TodoApp}/>
-        <IndexRoute component={Login}/>
-      </Route>
-    </Router>
+    {router}
   </Provider>,
   document.getElementById('app')
 );
