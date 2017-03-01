@@ -149,4 +149,27 @@ describe('Actions', () => {
       }, done); // Failure callback will just triger done with any errors passed
     });
   });
+
+  describe('Tests with firebase authentication', () => {
+    it('should generate login action', () => {
+      var action = {
+        type: 'LOGIN',
+        userId: '123'
+      };
+
+      var res = actions.login(action.userId);
+
+      expect(res).toEqual(action);
+    });
+
+    it('should generate logout action', () => {
+      var action = {
+        type: 'LOGOUT'
+      };
+
+      var res = actions.logout();
+
+      expect(res).toEqual(action);
+    });
+  });
 });

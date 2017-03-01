@@ -17,12 +17,14 @@ firebase.auth().onAuthStateChanged((user) => {
 
   if (user && location.pathname != '/todos') {
     // Login event
+    console.log('onAuthStateChanged: push to /todos', user);
+    store.dispatch(actions.login(user.uid));
     hashHistory.push('/todos');
-    console.log('onAuthStateChanged: push to /todos');
   } else if (!user && location.pathname != '/') {
     // Logout event
-    hashHistory.push('/');
     console.log('onAuthStateChanged: push to /');
+    store.dispatch(actions.logout());
+    hashHistory.push('/');
   }
 });
 

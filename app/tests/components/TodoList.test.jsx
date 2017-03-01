@@ -22,9 +22,9 @@ describe('TodoList', () => {
       {id: 3, text: 'profit', createdAt: 300, completedAt: undefined, complete: false},
     ];
 
-    var store = configureStore.configure({todos, showCompleted: true});
-    var provider = TestUtils.renderIntoDocument(<Provider store={store}><ConnectedTodoList todos={todos}/></Provider>);
-      
+    var store = configureStore.configure({todos, showCompleted: true, searchText: ""});
+    var provider = TestUtils.renderIntoDocument(<Provider store={store}><ConnectedTodoList/></Provider>);
+
     var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];
 
     // See how many Todo components were created inside of our TodoList
@@ -33,8 +33,13 @@ describe('TodoList', () => {
   });
 
   it('should render empty message if no todos', () => {
+
+
     var todos = [];
-    var todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
+    var store = configureStore.configure({todos, showCompleted: true, searchText: ""});
+    var provider = TestUtils.renderIntoDocument(<Provider store={store}><ConnectedTodoList/></Provider>);
+
+    var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];
     var $el = $(ReactDOM.findDOMNode(todoList));
     
     var emptyMessage = $el.find('.container__message');

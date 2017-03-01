@@ -3,12 +3,16 @@ import moment from 'moment'
 // otherwise we would need to include the filename, (without extension)
 import firebase, {firebaseRef, githubProvider} from 'app/firebase/'
 
+//--- SEARCH TODOS ---
+
 export var setSearchText = (searchText) => {
   return {
     type: 'SET_SEARCH_TEXT',
     searchText //ES6 for setting "searchText: searchText"
   };
 }
+
+//--- ADD TODOS ---
 
 export var addTodo = (todo) => {
   return {
@@ -81,6 +85,8 @@ export var startAddTodos = () => {
   };
 }
 
+//--- UPDATING TODOS ---
+
 export var toggleShowCompleted = () => {
   return {
     type: 'TOGGLE_SHOW_COMPLETED'
@@ -108,6 +114,15 @@ export var startToggleTodo = (id, complete) => {
     };
 }
 
+//--- AUTHENTICATION ---
+
+export var login = (userId) => {
+  return {
+    type: 'LOGIN',
+    userId
+  };
+}
+
 export var startLogin = () => {
   return (dispatch, getState) => {
     return firebase.auth().signInWithPopup(githubProvider).then((result) => {
@@ -117,6 +132,12 @@ export var startLogin = () => {
       // Error
       console.log('Auth Failed', error);
     });
+  };
+}
+
+export var logout = () => {
+  return {
+    type: 'LOGOUT'
   };
 }
 
