@@ -6,3 +6,5 @@ v1.0 release is purely React code.
 v2.0 release is using React with Redux.
 
 View a demo at http://fast-savannah-72950.herokuapp.com/
+
+(Note to self, need to set "heroku config:set NODE_MODULES_CACHE=false" to resolve a build error with yarn and node-sass)
