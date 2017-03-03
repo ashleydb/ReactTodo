@@ -11,7 +11,7 @@ try {
   };
   firebase.initializeApp(config);
 } catch (e) {
-  console.log("Error Initializing Firebase", e, "API Key: " + process.env.API_KEY);
+  console.log("Error Initializing Firebase", e);
 }
 
 // For logging into the app with GitHub, used in Actions.
