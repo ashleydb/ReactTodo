@@ -46,6 +46,10 @@ export var todosReducer = (state = [], action) => {
                 return todo;
             });
             break;
+        case 'LOGOUT':
+          // On logout we want to wipe the todos in the state
+          return [];
+          break;
         default:
             return state;
             break;
