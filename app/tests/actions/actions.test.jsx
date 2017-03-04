@@ -36,30 +36,6 @@ describe('Actions', () => {
     expect(res).toEqual(action);
   });
 
-  // Async test, which shouldn't pass until done is called
-  it('should create todo and dispatch ADD_TODO', (done) => {
-    const store = createMockStore({});
-    const todoText = 'My Todo Item';
-
-    store.dispatch(actions.startAddTodo(todoText)).then(() => {
-      // Success callback from our app
-
-      // Get a list of actions that were called on the store
-      const actions = store.getActions();
-
-      // The first action should have a type of ADD_TODO, (among other elements)
-      expect(actions[0]).toInclude({
-        type: 'ADD_TODO'
-      });
-      // The todo in the action should have the relevant text
-      expect(actions[0].todo).toInclude({
-        text: todoText
-      });
-      // Don't want to let the test timeout. No args means success
-      done();
-    }).catch(done); // Catch will call done with the relevant error params
-  });
-
   it('should generate add todos action', () => {
     var action = {
       type: 'ADD_TODOS',
@@ -95,31 +71,61 @@ describe('Actions', () => {
 
   describe('Tests with firebase todos', () => {
     var testTodoRef;
+    var userId;
+    var todosRef;
 
     // Create a placeholder todo in firebase
     beforeEach((done) => {
       // Wipe out any existing todos data
-      var todosRef = firebaseRef.child('todos');
-      todosRef.remove().then(() => {
+      firebase.auth().signInAnonymously().then((user) => {
+        userId = user.uid;
+        todosRef = firebaseRef.child(`users/${userId}/todos`);
+        return todosRef.remove();
+      }).then(() => {
         // Now create a single todo
-        testTodoRef = firebaseRef.child('todos').push();
+        testTodoRef = todosRef.push();
 
         return testTodoRef.set({
           text: 'Something to do',
           complete: false,
           createdAt: 6546546
-        })
+        });
       })
       .then(() => done()) // Single line syntax for the sucess callback, which informs mocha this async task is done
       .catch(done); // If anything goes wrong along the way, we'll catch the error
     });
-    // Cleanup placeholder todo in firebase
+
+    // Cleanup all placeholder todo data in firebase
     afterEach((done) => {
-      testTodoRef.remove().then(() => done());
+      todosRef.remove().then(() => done());
+    });
+
+    // Async test, which shouldn't pass until done is called
+    it('should create todo and dispatch ADD_TODO', (done) => {
+      const store = createMockStore({auth: {userId}});
+      const todoText = 'My Todo Item';
+
+      store.dispatch(actions.startAddTodo(todoText)).then(() => {
+        // Success callback from our app
+
+        // Get a list of actions that were called on the store
+        const actions = store.getActions();
+
+        // The first action should have a type of ADD_TODO, (among other elements)
+        expect(actions[0]).toInclude({
+          type: 'ADD_TODO'
+        });
+        // The todo in the action should have the relevant text
+        expect(actions[0].todo).toInclude({
+          text: todoText
+        });
+        // Don't want to let the test timeout. No args means success
+        done();
+      }).catch(done); // Catch will call done with the relevant error params
     });
 
     it('should populate todos and dispatch ADD_TODOS action', (done) => {
-      const store = createMockStore({});
+      const store = createMockStore({auth: {userId}});
       const action = actions.startAddTodos();
       store.dispatch(action).then(() => {
         // Success
@@ -132,7 +138,7 @@ describe('Actions', () => {
     });
 
     it('should toggle todo and dispatch UPDATE_TODO action', (done) => {
-      const store = createMockStore({});
+      const store = createMockStore({auth: {userId}});
       const action = actions.startToggleTodo(testTodoRef.key, true);
       store.dispatch(action).then(() => {
         // Success
