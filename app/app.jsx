@@ -19,6 +19,10 @@ firebase.auth().onAuthStateChanged((user) => {
     // Login event
     console.log('onAuthStateChanged: push to /todos', user);
     store.dispatch(actions.login(user.uid));
+
+    // Asyncronously load the todo data from firebase for this user
+    store.dispatch(actions.startAddTodos());
+
     hashHistory.push('/todos');
   } else if (!user && location.pathname != '/') {
     // Logout event
@@ -29,9 +33,6 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 //import './../playground/firebase/index';
-
-// Asyncronously load the todo data from firebase
-store.dispatch(actions.startAddTodos());
 
 //Use jQuery to start foundation
 $(document).foundation();

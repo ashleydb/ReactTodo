@@ -36,7 +36,8 @@ export var startAddTodo = (text) => {
     };
 
     // Send the data to our server (firebase)
-    var todoRef = firebaseRef.child('todos').push(todo);
+    var userId = getState().auth.userId;
+    var todoRef = firebaseRef.child(`users/${userId}/todos`).push(todo);
 
     // Need to update our state so that the content is re-rendered.
     // This uses an API based on promises to write, gets back an ID for that
@@ -62,7 +63,8 @@ export var startAddTodos = () => {
     // Create an array of objects for our app based on the object of objects from firebase
 
     // First, get the data from our server (firebase), which is async
-    var todosRef = firebaseRef.child('todos');
+    var userId = getState().auth.userId;
+    var todosRef = firebaseRef.child(`users/${userId}/todos`);
     return todosRef.once('value').then(function(dataSnapshot) {
       // Now we have the data, so can parse it, update our state and re-render
 
@@ -103,7 +105,8 @@ export var updateTodo = (id, updates) => {
 
 export var startToggleTodo = (id, complete) => {
     return (dispatch, getState) => {
-      var todoRef = firebaseRef.child(`todos/${id}`); // same as ('todos/' + id)
+      var userId = getState().auth.userId;
+      var todoRef = firebaseRef.child(`users/${userId}/todos/${id}`); // same as ('todos/' + id)
       var updates = {
         complete,
         completedAt: complete ? moment().unix() : null
